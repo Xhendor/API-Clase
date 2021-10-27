@@ -7,7 +7,9 @@ router.get('/',function(req,res,next){
 
     pm.obtener().then(productos => {
 
-        res.json(productos)
+        //res.json(productos)
+        res.render('productos/ver',{productos:productos,})
+
     }).catch(err => {
         return res.status(500).send('Error en obtener productos')
     })
@@ -20,7 +22,7 @@ router.post('/insertar',  function(req,res,next){
     if(!nombre||!precio){
         return res.status(500).send('No hay nombre o precio')
     }
-    pm.insertar(nombre,precio).then(resultado => {
+    pm.insertar(nombre,'',precio).then(resultado => {
         res.json(resultado)
     }).catch(err => {
         res.status(500).send('Error insertando prodcuto')
