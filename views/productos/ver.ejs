@@ -5,6 +5,8 @@
         <thead>
             <th>Nombre</th>
             <th>Precio</th>
+            <th>Editar</th>
+            <th>Borrar</th>
         </thead>
 
         <tbody>
@@ -13,6 +15,14 @@
                 <tr>
                     <td><%= producto.nombre %></td>
                     <td><%= producto.precio %></td>
+                    <td>
+                        <a href="/productos/editar/<%= producto.id_productos %>" 
+                            class="btn btn-warning">Editar</a>
+                    </td>
+                    <td>
+                        <a href="/productos/eliminar/<%= producto.id_productos %>"
+                            class="btn btn-danger">Elimnar</a>
+                    </td>
                 </tr>
 
             <% }) %>    

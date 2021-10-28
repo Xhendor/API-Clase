@@ -15,6 +15,10 @@ router.get('/',function(req,res,next){
     })
 });
 
+router.get('/agregar',function(req,res,next){
+
+    res.render('productos/agregar')
+});
 router.post('/insertar',  function(req,res,next){
     //Obtener nombre y precio y esto va del body
 
@@ -55,8 +59,21 @@ router.get('/:id',  function(req,res,next){
     })
 
 });
+router.get('/editar/:id',function(req,res,next){
 
-router.put('/actualizar',  function(req,res,next){
+    pm.obtenerPorId(req.params.id).then(producto =>{
+        if(producto){
+            res.render('productos/editar',{producto:producto,})
+        }else{
+           res.status(404).send('No se encontro el articulo') 
+        }
+
+    }).catch(err =>{
+        res.status(500).send('Error al obtener el articulo') 
+
+    })
+});
+router.post('/actualizar',  function(req,res,next){
     const {id,nombre,precio} = req.body
     if(!nombre||!precio||!id){
         return res.status(500).send('No hay suficientes datos')
