@@ -12,6 +12,7 @@ router.get('/',function(req,res,next){
         res.render('productos/ver',{productos:productos,})
 
     }).catch(err => {
+     //Cambiar a mensaje flash enviado a un render
         return res.status(500).send('Error en obtener productos')
     })
 }else{
@@ -35,12 +36,22 @@ router.post('/insertar',  function(req,res,next){
 if(req.session.loggedIn){
     const {nombre,precio} = req.body
     if(!nombre||!precio){
+        //Cambiar a mensaje flash enviado a un render
         return res.status(500).send('No hay nombre o precio')
     }
     pm.insertar(nombre,'',precio).then(resultado => {
-        res.json(resultado)
+         //Cambiar a mensaje flash enviado a un render
+        //res.json(resultado)
+        pm.obtener().then(productos => {
+            req.flash('success','Se guardo correctamente!!')
+            res.render('productos/ver',{productos:productos,})
+        }).catch(err => {
+         //Cambiar a mensaje flash enviado a un render
+            return res.status(500).send('Error en obtener productos')
+        })
     }).catch(err => {
-        res.status(500).send('Error insertando prodcuto')
+        req.flash('error','No se pudo crear el producto')
+        res.render('index')
     })
 
 }else{
@@ -56,6 +67,7 @@ router.get('/eliminar/:id',  function(req,res,next){
     pm.eliminar(req.params.id).then(()=>{
         res.status(200).send('Borrado correcto')
     }).catch(err => {
+        //Cambiar a mensaje flash enviado a un render
         res.status(500).send('Error al borrar')
     })}else{
         req.flash('error','Tiene que iniciar session primero!!')
@@ -72,6 +84,7 @@ router.get('/:id',  function(req,res,next){
         if(producto){
             res.json(producto)
         }else{
+          //Cambiar a mensaje flash enviado a un render
            res.status(404).send('No se encontro el articulo') 
         }
 
@@ -89,10 +102,13 @@ router.get('/editar/:id',function(req,res,next){
         if(producto){
             res.render('productos/editar',{producto:producto,})
         }else{
+            //Cambiar a mensaje flash enviado a un render
            res.status(404).send('No se encontro el articulo') 
         }
 
     }).catch(err =>{
+                    //Cambiar a mensaje flash enviado a un render
+
         res.status(500).send('Error al obtener el articulo') 
 
     })}else{
