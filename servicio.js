@@ -1,12 +1,13 @@
 const express= require('express')
 const path= require('path')
 const fs=require('fs')
+const flash=require('express-flash')
 const formidable= require('formidable')
 const session= require('express-session')
 const  routerIndex =require('./routes/index')
 const  routerProductos =require('./routes/productos')
 const  tiendaWeb =require('./routes/tienda_web')
-
+const routerAuth=require('./routes/auth')
 const cookieParser=require('cookie-parser')
 const port = 3000
 var app = express();
@@ -15,7 +16,13 @@ var app = express();
 //npm install ejs
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.use(flash())
+app.use(session({
+    secret: '123456abc',
+    saveUninitialized: true,
+    resave: false,
+  }))
+  
 const DOMINIO_PERMITIDO_CORS = "http://localhost:4200",
   DIRECTORIO_FOTOS = path.join(__dirname, "fotos_productos"),
   DIRECTORIO_DIST = path.join(__dirname, "dist"),
@@ -41,9 +48,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //Contenido estatico
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/crud',routerIndex)
-app.use('/',tiendaWeb)
+app.use('/',routerIndex)
+app.use('/tw',tiendaWeb)
 app.use('/productos',routerProductos)
+app.use('/auth',routerAuth)
+
+
 app.listen(port,function(){
 
     console.log('Example app ruta:localhost:'+port)
