@@ -5,6 +5,8 @@ const formidable= require('formidable')
 const session= require('express-session')
 const  routerIndex =require('./routes/index')
 const  routerProductos =require('./routes/productos')
+const  tiendaWeb =require('./routes/tienda_web')
+
 const cookieParser=require('cookie-parser')
 const port = 3000
 var app = express();
@@ -39,7 +41,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //Contenido estatico
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/',routerIndex)
+app.use('/crud',routerIndex)
+app.use('/',tiendaWeb)
 app.use('/productos',routerProductos)
 app.listen(port,function(){
 

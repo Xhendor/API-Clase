@@ -1,12 +1,13 @@
 const express=require('express')
 const app = express.Router()
-const productoModel = require("./productos_model")
-const clienteModel = require("./clientes_model")
-const ventaModel = require("./ventas_model")
-const productoVendidoModel = require("./producto_vendido_model")
+const productoModel = require("../models/productos_model")
+const clienteModel = require("../models/clientes_model")
+const ventaModel = require("../models/ventas_model")
+const productoVendidoModel = require("../models/prod_ventas_model")
 const formidable = require("formidable")
 const path = require("path")
 fs = require("fs")
+//npm install uuid
 const {v4: uuidv4} = require("uuid")
 
 const indiceDeProducto = (carrito, idProducto) => {
