@@ -25,9 +25,8 @@ app.use(session({
   
 const DOMINIO_PERMITIDO_CORS = "http://localhost:4200",
   DIRECTORIO_FOTOS = path.join(__dirname, "fotos_productos"),
-  DIRECTORIO_DIST = path.join(__dirname, "dist"),
-  PUERTO = 3000;
-
+  DIRECTORIO_DIST = path.join(__dirname, "dist");
+  
   app.use("/foto_producto", express.static(DIRECTORIO_FOTOS));
   // Estático
   app.use("/", express.static(DIRECTORIO_DIST));
