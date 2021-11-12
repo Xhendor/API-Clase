@@ -9,6 +9,7 @@ const path = require("path")
 fs = require("fs")
 //npm install uuid
 const {v4: uuidv4} = require("uuid")
+DIRECTORIO_FOTOS = path.join(__dirname, "fotos_productos");
 
 const indiceDeProducto = (carrito, idProducto) => {
     return carrito.findIndex(productoDentroDelCarrito => productoDentroDelCarrito.id === idProducto);
