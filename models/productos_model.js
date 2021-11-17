@@ -13,7 +13,7 @@ insertar(nombre,descripcion,precio){
         conexion.query('insert into productos (nombre,descripcion,precio)'+
        ' values (?,?,?)',[nombre,descripcion,precio],(err,resultado) => {
            if (err)reject(err);
-           else resolve(resultado)
+           else resolve(resultado.insertId)
        })
     })
 

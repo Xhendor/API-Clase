@@ -9,7 +9,8 @@ const path = require("path")
 fs = require("fs")
 //npm install uuid
 const {v4: uuidv4} = require("uuid")
-DIRECTORIO_FOTOS = path.join(__dirname, "fotos_productos");
+DIRECTORIO_FOTOS = path.join("C:\\Users\\XQAD\\Documents\\PROYECTOS\\SERVICIO\\",
+ "fotos_productos");
 
 const indiceDeProducto = (carrito, idProducto) => {
     return carrito.findIndex(productoDentroDelCarrito => productoDentroDelCarrito.id === idProducto);
@@ -105,6 +106,8 @@ app.get("/detalle_venta", async (req, res) => {
   
     form.parse(req, async (err, fields, files) => {
       const idProducto = fields.idProducto;
+      console.log(fields)
+      console.log(files)
       for (let clave in files) {
         const file = files[clave];
         const nombreArchivo = file.name;
