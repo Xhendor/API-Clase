@@ -13,11 +13,12 @@ DIRECTORIO_FOTOS = path.join("C:\\Users\\XQAD\\Documents\\PROYECTOS\\SERVICIO\\"
  "fotos_productos");
 
 const indiceDeProducto = (carrito, idProducto) => {
-    return carrito.findIndex(productoDentroDelCarrito => productoDentroDelCarrito.id === idProducto);
+    return carrito.findIndex
+    (productoDentroDelCarrito => productoDentroDelCarrito.id_productos === idProducto);
   }
 
 const existeProducto = (carrito, producto) => {
-    return indiceDeProducto(carrito, producto.id) !== -1;
+    return indiceDeProducto(carrito, producto.id_productos) !== -1;
   }
 
 app.delete("/producto", async (req, res) => {
@@ -68,7 +69,7 @@ app.get("/detalle_venta", async (req, res) => {
   })
   // No está en un DELETE porque no permite datos en el body 
   app.post("/carrito/eliminar", async (req, res) => {
-    const idProducto = req.body.id;
+    const idProducto = req.body.id_producto;
     const indice = indiceDeProducto(req.session.carrito, idProducto);
     if (indice >= 0 && req.session.carrito) {
       req.session.carrito.splice(indice, 1);
@@ -76,15 +77,19 @@ app.get("/detalle_venta", async (req, res) => {
     res.json(true);
   });
   app.post("/carrito/existe", async (req, res) => {
-    const idProducto = req.body.id;
-    const producto = await productoModel.obtenerPorId(idProducto);
+    const idProducto = req.body.id_producto;
+    console.log(req.body.idProducto)
+    const producto = await productoModel.obtenerPorId(req.body.id_producto);
+    console.log(JSON.stringify(producto))
     const existe = existeProducto(req.session.carrito || [], producto);
     res.json(existe);
   });
   
   app.post("/carrito/agregar", async (req, res) => {
-    const idProducto = req.body.id;
+    const idProducto = req.body.id_producto;
+    console.log(idProducto)
     const producto = await productoModel.obtenerPorId(idProducto);
+    console.log(producto)
     if (!req.session.carrito) {
       req.session.carrito = [];
     }
