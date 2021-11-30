@@ -8,7 +8,7 @@ module.exports = {
             conexion.query('insert into productos_ventas (id_venta,id_producto) values (?,?)', [idVenta,idProducto],
             (err,resultados)=>{
                 if(err)reject(err)
-                else resovle(resultados.insertId)
+                else resolve(resultados.insertId)
             })
         
 

@@ -4,8 +4,8 @@ module.exports = {
 obtener(){
     return new Promise((resolve,reject) => {
         
-        conexion.query('select ventas.id,ventas.total,clientes.nombre,clientes.direccion from ventas '+
-        ' inner join on ventas.id_cliente= clientes.id_clientes', (err,resultados)=>{
+        conexion.query('select ventas.id_ventas,ventas.total,clientes.nombre,clientes.direccion from ventas '+
+        ' inner join clientes on ventas.id_cliente= clientes.id_clientes', (err,resultados)=>{
 
             if(err)reject(err)
             else resolve(resultados)
@@ -16,8 +16,7 @@ obtener(){
 obtenerPorId(Id){
     return new Promise((resolve,reject) => {
         
-        conexion.query('select ventas.id,ventas.total,clientes.nombre,clientes.direccion from ventas '+
-        ' inner join on ventas.id_cliente= clientes.id_clientes  where ventas.id_ventas=?',
+        conexion.query('select ventas.id_ventas,ventas.total,clientes.nombre,clientes.direccion from ventas inner join clientes on ventas.id_cliente= clientes.id_clientes  where ventas.id_ventas=?',
          [Id],
          (err,resultados)=>{
 
@@ -45,8 +44,8 @@ obtenerProductosVendidos(idVenta){
 
     return new Promise((resolve,reject) => {
         
-        conexion.query('select productos.* from productos_ventas inner join productos.id_productos=productos_ventas.id_productos_ventas '
-        +' where pruductos_ventas.id_venta=?',
+        conexion.query('select productos.* from productos_ventas inner join productos on productos.id_productos=productos_ventas.id_producto '
+        +' where productos_ventas.id_venta=?',
          [idVenta],
          (err,resultados)=>{
 

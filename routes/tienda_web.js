@@ -39,8 +39,9 @@ app.get("/detalle_venta", async (req, res) => {
     }
     const idVenta = req.query.id;
     const venta = await ventaModel.obtenerPorId(idVenta);
-    venta.productos = await ventaModel.obtenerProductosVendidos(idVenta);
-    res.json(venta);
+    venta[0].productos = await ventaModel.obtenerProductosVendidos(idVenta);
+    console.log(JSON.stringify(venta));
+    res.json(venta[0]);
   })
   app.get("/ventas", async (req, res) => {
     const ventas = await ventaModel.obtener();
@@ -52,12 +53,12 @@ app.get("/detalle_venta", async (req, res) => {
   
     const carrito = req.session.carrito || [];
     carrito.forEach(p => total += p.precio);
-    const idCliente = await clienteModel.insertar(nombre, direccion);
+    const idCliente = await clienteModel.insert(nombre,direccion);
     const idVenta = await ventaModel.insertar(idCliente, total);
     // usamos for en lugar de foreach por el await
     for (let m = 0; m < carrito.length; m++) {
       const productoActual = carrito[m];
-      await productoVendidoModel.insertar(idVenta, productoActual.id);
+      await productoVendidoModel.insertar(idVenta, productoActual.id_productos);
     }
     // Limpiar carrito...
     req.session.carrito = [];
@@ -79,7 +80,7 @@ app.get("/detalle_venta", async (req, res) => {
   app.post("/carrito/existe", async (req, res) => {
     const idProducto = req.body.id_producto;
     console.log(req.body.idProducto)
-    const producto = await productoModel.obtenerPorId(req.body.id_producto);
+    const producto = await productoModel.obtenerPorId(idProducto);
     console.log(JSON.stringify(producto))
     const existe = existeProducto(req.session.carrito || [], producto);
     res.json(existe);
